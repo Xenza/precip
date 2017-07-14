@@ -97,6 +97,24 @@ class precip {
     include 'precip::pimpmylog'
   }
   
+  class { 'cachefilesd':
+    service_manage => true,
+    service_enable => true,
+    service_ensure => 'running',
+    package_ensure => 'latest',
+    brun => '20%',
+    frun => '20%',
+    bcull => '20%',
+    fcull => '10%',
+    bstop => '5%',
+    fstop => '5%',
+  }
+  
+  exec { 'update-cachefilesd':
+    command => 'sudo echo "RUN=yes" > /etc/default/cachefilesd',
+    path   => '/usr/bin:/usr/sbin:/bin',
+  }
+  
   # More elegant workaround for vbguest's issue #95
   # See: https://github.com/dotless-de/vagrant-vbguest/issues/95#issuecomment-163777475
   file { '/sbin/vboxadd':

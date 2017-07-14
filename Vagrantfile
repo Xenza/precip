@@ -68,7 +68,7 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder drupal_basepath, "/srv/www", owner: "www-data", group: "www-data"
   else
     # Everybody else gets nfs + bindfs, for better small-file read perf
-    config.vm.synced_folder drupal_basepath, "/nfs-www", type: "nfs"
+    config.vm.synced_folder drupal_basepath, "/nfs-www", type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc' , 'actimeo=2']
     config.bindfs.bind_folder "/nfs-www", "/srv/www", user: "vagrant", group: "www-data", chown_ignore: true, chgrp_ignore: true, perms: "u=rwx:g=rwx:o=rx"
   end
 
